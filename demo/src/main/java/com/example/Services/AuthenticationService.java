@@ -77,16 +77,6 @@ public class AuthenticationService {
         }
     }
 
-    public void deleteSecureToken(long userId, String token) // pri logout
-    {
-        Authenticator dets = sessions.get(userId);
-        if (dets.getToken() == dets.getToken())
-            ;
-        {
-            sessions.remove(userId);
-        }
-    }
-
     public boolean isValidToken(long userId, String token) {
         Authenticator dets = sessions.get(userId);
         if (dets.getToken() == token) {
