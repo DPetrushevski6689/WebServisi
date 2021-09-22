@@ -52,9 +52,16 @@ public class MatchesResource {
 
     @GET
     @Path("/{matchId}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Match getMatch(@PathParam("matchId") Long matchId) {
-        return matchService.getMatchForId(matchId);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Match getMatch(@PathParam("matchId") long matchId) {
+        Match matchToReturn = matchService.getMatchForId(matchId);
+        if (matchToReturn != null) {
+            return matchToReturn;
+        } else {
+            Match failed = new Match();
+            failed.setName("No match found");
+            return failed;
+        }
     }
 
     @POST
@@ -67,8 +74,15 @@ public class MatchesResource {
     @DELETE
     @Path("/{matchId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public void deleteMatch(@PathParam("matchId") Long id) {
-        matchService.removeMatch(id);
+    public String deleteMatch(@PathParam("matchId") Long id) {
+        Match deletedMatch = matchService.removeMatch(id);
+        if (deletedMatch != null) {
+            String returnString = "Successfully deleted match:" + deletedMatch.getName() + "!";
+            return returnString;
+        } else {
+            return "No match found for that Id !";
+        }
+
     }
 
     @PUT
