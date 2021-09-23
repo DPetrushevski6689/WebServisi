@@ -25,7 +25,7 @@ public class UnregisterResource {
 
         String userName = queryParams.getFirst("username");
         String password = queryParams.getFirst("password");
-        String newPassword = queryParams.getFirst("newPassword");
+        String newPassword = queryParams.getFirst("confirmPassword");
 
         User userToDelete = null;
 

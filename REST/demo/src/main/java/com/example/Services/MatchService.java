@@ -105,17 +105,67 @@ public class MatchService {
         return matchesForStatus;
     }
 
+    public List<Match> getAllMatchesForTypeandStatusandTeam(String type, String status, String team) {
+        List<Match> matchesFiltered = new ArrayList<>();
+
+        if (status.equals(Status.active.toString()) || status.equals(Status.scheduled.toString())
+                || status.equals(Status.ended.toString())) {
+            for (Match m : matches.values()) {
+                if ((m.getStatus().toString().equals(status)) && (m.getType().equals(type))
+                        && (m.getName().toLowerCase().contains(team.toLowerCase()))) {
+                    matchesFiltered.add(m);
+                }
+            }
+        }
+        return matchesFiltered;
+    }
+
+    public List<Match> getAllMatchesForTeam(String team) {
+        List<Match> matchesForTeam = new ArrayList<>();
+        for (Match m : matches.values()) {
+            if (m.getName().toLowerCase().contains(team.toLowerCase())) {
+                matchesForTeam.add(m);
+            }
+        }
+        return matchesForTeam;
+    }
+
     public List<Match> getAllMatchesForTypeandStatus(String type, String status) {
-        List<Match> matchesForStatus = new ArrayList<>();
+        List<Match> matchesFiltered = new ArrayList<>();
 
         if (status.equals(Status.active.toString()) || status.equals(Status.scheduled.toString())
                 || status.equals(Status.ended.toString())) {
             for (Match m : matches.values()) {
                 if ((m.getStatus().toString().equals(status)) && (m.getType().equals(type))) {
-                    matchesForStatus.add(m);
+                    matchesFiltered.add(m);
                 }
             }
         }
-        return matchesForStatus;
+        return matchesFiltered;
+    }
+
+    public List<Match> getAllMatchesForTypeandTeam(String type, String team) {
+        List<Match> matchesFiltered = new ArrayList<>();
+        for (Match m : matches.values()) {
+            if (m.getName().toLowerCase().contains(team.toLowerCase()) && (m.getType().equals(type))) {
+                matchesFiltered.add(m);
+            }
+        }
+        return matchesFiltered;
+    }
+
+    public List<Match> getAllMatchesForStatusandTeam(String status, String team) {
+        List<Match> matchesFiltered = new ArrayList<>();
+
+        if (status.equals(Status.active.toString()) || status.equals(Status.scheduled.toString())
+                || status.equals(Status.ended.toString())) {
+            for (Match m : matches.values()) {
+                if ((m.getStatus().toString().equals(status))
+                        && (m.getName().toLowerCase().contains(team.toLowerCase()))) {
+                    matchesFiltered.add(m);
+                }
+            }
+        }
+        return matchesFiltered;
     }
 }

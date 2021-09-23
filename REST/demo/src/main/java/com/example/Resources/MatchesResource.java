@@ -27,24 +27,33 @@ public class MatchesResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Match> getMatches(@QueryParam("type") String type, @QueryParam("status") String status) {
+    public List<Match> getMatches(@QueryParam("type") String type, @QueryParam("status") String status,
+            @QueryParam("team") String team) {
         List<Match> matches = matchService.getAllMatches();
 
         List<Match> finalMatches = new ArrayList<>();
 
-        if ((type == null) && (status == null)) {
+        if ((type == null) && (status == null) && (team == null)) {
             for (Match i : matches) {
                 Map<Long, Match> matchesMap = Database.getMatches();
                 Match toAdd = matchesMap.get(i.getId());
                 finalMatches.add(toAdd);
             }
             return finalMatches;
-        } else if ((type != null) && (status == null)) {
+        } else if ((type != null) && (status == null) && (team == null)) {
             return matchService.getAllMatchesForType(type);
-        } else if ((type == null) && (status != null)) {
+        } else if ((type == null) && (status != null) && (team == null)) {
             return matchService.getAllMatchesForStatus(status);
-        } else if ((type != null) && (status != null)) {
+        } else if ((type == null) && (status == null) && (team != null)) {
+            return matchService.getAllMatchesForTeam(team);
+        } else if ((type != null) && (status != null) && (team != null)) {
+            return matchService.getAllMatchesForTypeandStatusandTeam(type, status, team);
+        } else if ((team == null) && (type != null) && (status != null)) {
             return matchService.getAllMatchesForTypeandStatus(type, status);
+        } else if ((status == null) && (type != null) && (team != null)) {
+            return matchService.getAllMatchesForTypeandTeam(type, team);
+        } else if ((type == null) && (status != null) && (team != null)) {
+            return matchService.getAllMatchesForStatusandTeam(status, team);
         } else {
             return matches;
         }
